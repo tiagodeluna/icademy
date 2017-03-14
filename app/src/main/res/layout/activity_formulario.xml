@@ -33,25 +33,25 @@
             android:id="@+id/formulario_nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome" />
+            android:hint="Name" />
 
         <EditText
             android:id="@+id/formulario_endereco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Endereço" />
+            android:hint="Full Adress" />
 
         <EditText
             android:id="@+id/formulario_telefone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Telefone" />
+            android:hint="Phone Number" />
 
         <EditText
             android:id="@+id/formulario_site"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Site" />
+            android:hint="Website" />
 
         <RatingBar
             android:id="@+id/formulario_nota"
