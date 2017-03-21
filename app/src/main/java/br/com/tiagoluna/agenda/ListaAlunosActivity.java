@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
@@ -22,13 +24,21 @@ import br.com.tiagoluna.agenda.persistencia.AlunoDAO;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
+    private final int SMS_REQUEST_CODE = 122;
+    private final int CALL_PHONE_REQUEST_CODE = 123;
+
     private AlunoDAO dao;
     private ListView listaAlunos;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
+
+        if (checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.RECEIVE_SMS}, SMS_REQUEST_CODE);
+        }
 
         this.dao = new AlunoDAO(this);
 
@@ -80,7 +90,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 //Checa permissão para fazer ligações
                 if (ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, Manifest.permission.CALL_PHONE)
                         != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(ListaAlunosActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 123);
+                    ActivityCompat.requestPermissions(ListaAlunosActivity.this,
+                            new String[]{Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST_CODE);
                 }
                 else {
                     Intent intentLigar = new Intent(Intent.ACTION_CALL);
