@@ -18,17 +18,17 @@ import br.com.tiagoluna.agenda.dominio.Aluno;
 
 public class AlunoDAO extends SQLiteOpenHelper {
 
-    private static final String NOME_DB = "Agenda";
-    private static final int VERSAO_DB = 2;
-    public static final String TABELA = "Alunos";
+    private static final String DB_NAME = "Agenda";
+    private static final int DB_VERSION = 2;
+    public static final String TABLE = "Alunos";
 
     public AlunoDAO(Context context) {
-        super(context, NOME_DB, null, VERSAO_DB);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE "+TABELA+" (id INTEGER PRIMARY KEY," +
+        String sql = "CREATE TABLE "+ TABLE +" (id INTEGER PRIMARY KEY," +
                 "nome TEXT NOT NULL, " +
                 "endereco TEXT," +
                 "telefone TEXT," +
@@ -41,13 +41,13 @@ public class AlunoDAO extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String sql = "";
-        //Atualiza tabela
+        //Update table
         switch (oldVersion) {
             case 1:
-                sql = "ALTER TABLE "+TABELA+" ADD COLUMN caminhoFoto TEXT;";
+                sql = "ALTER TABLE "+ TABLE +" ADD COLUMN caminhoFoto TEXT;";
                 db.execSQL(sql);
             case 2:
-                //versão atual
+                //Current version
                 break;
         }
     }
@@ -60,11 +60,11 @@ public class AlunoDAO extends SQLiteOpenHelper {
     }
 
     public List<Aluno> buscarAlunos() {
-        String sql = "SELECT * FROM "+TABELA+" ORDER BY nome, nota DESC, id;";
+        String sql = "SELECT * FROM "+ TABLE +" ORDER BY nome, nota DESC, id;";
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(sql, null);
 
-        List<Aluno> alunos = new ArrayList<Aluno>();
+        List<Aluno> alunos = new ArrayList<>();
 
         while(c.moveToNext()) {
             Aluno a = new Aluno();
@@ -89,7 +89,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         String[] params = {aluno.getId().toString()};
 
-        db.delete(TABELA, "id = ?", params);
+        db.delete(TABLE, "id = ?", params);
     }
 
     public void alterar(Aluno aluno) {
@@ -97,7 +97,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
         ContentValues dados = new ContentValues();
         String[] params = {aluno.getId().toString()};
 
-        db.update(TABELA, this.getDadosAluno(aluno), "id = ?", params);
+        db.update(TABLE, this.getDadosAluno(aluno), "id = ?", params);
     }
 
     @NonNull
@@ -116,7 +116,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     public boolean isAluno(String telefone) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor result = db.rawQuery("SELECT * FROM " + TABELA + " WHERE telefone = ?", new String[]{telefone});
+        Cursor result = db.rawQuery("SELECT * FROM " + TABLE + " WHERE telefone = ?", new String[]{telefone});
 
         int count = result.getCount();
         //Close the cursor
