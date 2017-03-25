@@ -8,17 +8,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 import br.com.tiagoluna.agenda.adapter.AlunosAdapter;
+import br.com.tiagoluna.agenda.converter.AlunoConverter;
 import br.com.tiagoluna.agenda.dominio.Aluno;
 import br.com.tiagoluna.agenda.persistencia.AlunoDAO;
 
@@ -136,6 +141,32 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_lista_alunos, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_enviar_notas:
+                this.dao = new AlunoDAO(this);
+                List<Aluno> alunos = this.dao.buscarAlunos();
+                dao.close();
+                //Creates file with all contacts to send via WebService
+                AlunoConverter conversor = new AlunoConverter();
+                String json = conversor.converterParaJson(alunos);
+
+                WebClient client = new WebClient();
+                String response = client.post(json);
+                Toast.makeText(this, "Enviando notas..."+response, Toast.LENGTH_LONG).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void carregarListaAlunos() {
