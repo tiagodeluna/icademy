@@ -8,6 +8,9 @@ import java.net.URL;
 import java.util.Scanner;
 
 /**
+ * Class responsible for the HTTP requests.
+ * Obs: To execute this kind of operation is necessary to require "INTERNET" permission.
+ *
  * Created by tiago on 24/03/2017.
  */
 

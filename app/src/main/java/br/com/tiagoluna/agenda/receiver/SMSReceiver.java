@@ -13,6 +13,8 @@ import br.com.tiagoluna.agenda.R;
 import br.com.tiagoluna.agenda.persistencia.AlunoDAO;
 
 /**
+ * Class that captures SMS messages and verifies if it was sent by a registered contact.
+ *
  * Created by tiago on 13/03/2017.
  */
 

@@ -154,16 +154,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_enviar_notas:
-                this.dao = new AlunoDAO(this);
-                List<Aluno> alunos = this.dao.buscarAlunos();
-                dao.close();
-                //Creates file with all contacts to send via WebService
-                AlunoConverter conversor = new AlunoConverter();
-                String json = conversor.converterParaJson(alunos);
-
-                WebClient client = new WebClient();
-                String response = client.post(json);
-                Toast.makeText(this, "Enviando notas..."+response, Toast.LENGTH_LONG).show();
+                //Calls a thread to find and send the contact list to the Web Service in background
+                new SendContactTask(this).execute();
                 break;
         }
         return super.onOptionsItemSelected(item);

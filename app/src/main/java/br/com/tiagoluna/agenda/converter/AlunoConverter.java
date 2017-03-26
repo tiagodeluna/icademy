@@ -18,7 +18,7 @@ public class AlunoConverter {
 
         try {
             //Opens list of objects
-            js.object().key("list").array().object().key("student").array();
+            js.object().key("list").array().object().key("aluno").array();
             //Fills file with students
             for (Aluno a : lista) {
                 js.object();

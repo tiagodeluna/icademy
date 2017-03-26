@@ -19,7 +19,6 @@ import br.com.tiagoluna.agenda.dominio.Aluno;
 /**
  * Created by tiago on 12/03/2017.
  */
-
 public class AlunosAdapter extends BaseAdapter {
 
     private final List<Aluno> alunos;
